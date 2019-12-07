@@ -1,0 +1,28 @@
+name: Library
+on: push
+#on:
+#  push:
+#    paths:
+#      - './**'
+#      - '!src/BlackBoneDrv/**'
+
+jobs:
+  library:
+    name: Build and test library
+    strategy:
+      matrix:
+        platfom: [win32, x64]
+        #, Debug(DLL), Release(DLL)
+        configuration: [Debug, Release]
+    runs-on: windows-2019
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Build
+        shell: cmd
+        run: |
+          "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\MSBuild.exe" BlackBone.sln /p:CI=true /p:Platform="${{ matrix.platfom }}" /p:Configuration="${{ matrix.configuration }}"
+      - name: Test
+        shell: cmd
+        run: |
+          "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" "build/${{ matrix.platfom }}/${{ matrix.configuration }}/BlackboneTest.dll"
