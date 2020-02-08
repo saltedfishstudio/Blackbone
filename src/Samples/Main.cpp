@@ -4,12 +4,13 @@
 #include <BlackBone/Syscalls/Syscall.h>
 #include <iostream>
 
+using namespace std;
 using namespace blackbone;
 
 void MapCalcFromFile();
 void MapCmdFromMem();
 
-const std::wstring ProcessName = L"League Of Legends";
+const wstring ProcessName = L"League Of Legends";
 
 int main( int /*argc*/, char* /*argv[]*/ )
 {
@@ -17,18 +18,18 @@ int main( int /*argc*/, char* /*argv[]*/ )
     auto pids = Process::EnumByName(ProcessName);
 
     // List all process PIDs matching either by PID only
-    auto procInfo = Process::EnumByNameOrPID( 0x1234, L"" );
+    //auto procInfo = Process::EnumByNameOrPID( 0x1234, L"" );
 
     // List all processes
-    auto all = Process::EnumByNameOrPID( 0, L"" );
+    //auto all = Process::EnumByNameOrPID( 0, L"" );
 
     // Attach to a process
-    if (Process explorer; !pids.empty() && NT_SUCCESS( explorer.Attach( pids.front() ) ))
+    if (Process client; !pids.empty() && NT_SUCCESS( client.Attach( pids.front() ) ))
     {
-        auto& core = explorer.core();
+        auto& core = client.core();
 
         // Get bitness info about this and target processes
-        [[maybe_unused]] auto barrier = explorer.barrier();
+        [[maybe_unused]] auto barrier = client.barrier();
 
         // Get process PID and handle
         [[maybe_unused]] auto pid = core.pid();
@@ -39,10 +40,14 @@ int main( int /*argc*/, char* /*argv[]*/ )
         [[maybe_unused]] auto peb_ptr = core.peb( &peb );
 
         // Get all process handles
-        if (auto handles = explorer.EnumHandles(); handles)
+        if (auto handles = client.EnumHandles(); handles)
         {
             // do stuff with handles...
         }
+
+        cout << "pid :" << pid << endl;
+        cout << "handle : " << handle << endl;
+        cout << "peb ptr : " << peb_ptr << endl;
     }
 
     // Start new suspended process and attach immediately
