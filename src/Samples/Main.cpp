@@ -9,10 +9,12 @@ using namespace blackbone;
 void MapCalcFromFile();
 void MapCmdFromMem();
 
+const std::wstring ProcessName = L"League Of Legends";
+
 int main( int /*argc*/, char* /*argv[]*/ )
 {
     // List all process PIDs matching name
-    auto pids = Process::EnumByName( L"explorer.exe" );
+    auto pids = Process::EnumByName(ProcessName);
 
     // List all process PIDs matching either by PID only
     auto procInfo = Process::EnumByNameOrPID( 0x1234, L"" );
