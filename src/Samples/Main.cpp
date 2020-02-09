@@ -48,6 +48,15 @@ int main( int /*argc*/, char* /*argv[]*/ )
         cout << "pid :" << pid << endl;
         cout << "handle : " << handle << endl;
         cout << "peb ptr : " << peb_ptr << endl;
+
+        auto baseAddress = 0xE60000;
+
+        auto isHero = 0x103BA20 - baseAddress;
+        auto isTurret = 0x103BC10 - baseAddress;
+        auto isMinion = 0x103BA60 - baseAddress;
+    	
+        auto localPlayerId = 0x1199060 - baseAddress;
+        auto localPlayerName = 0x1199060 - baseAddress;
     }
 
     // Start new suspended process and attach immediately
